@@ -1,15 +1,15 @@
 import React from 'react'
 import TrainingCard from './TrainingCard'
 
-const TrainingCardContainer = ({ data }) => {
-    const showData = (data) => {
-        return data.map(item => {
-            return <TrainingCard item={item}/>
+const TrainingCardContainer = ({ entries, setEntries }) => {
+    const showData = (entry) => {
+        return entries.map(entry => {
+            return <TrainingCard entry={entry} entries={entries} setEntries={setEntries}/>
         })
     }
     return (
-        <div>
-            {showData(data)}
+        <div className='trainingCardContainer'>
+            {showData(entries)}
         </div>
     )
 }
