@@ -19,15 +19,15 @@ function App() {
       sets: 3,
       reps: 2,
       weight: 10,
-      trainingNotes: "dsdsfsfddssdffdssdgdfgxsdghffdgdssklgfdj"
+      trainingNotes: "dsdsfsfddssdffdssdgdfgxsdghffdgdssklgfdj",
     },
     {
       type: "Full Crimp",
       sets: 5,
       reps: 8,
       weight: "ISO",
-      trainingNotes: "dsf"
-    }
+      trainingNotes: "dsf",
+    },
   ];
   const [anchorEl, setAnchorEl] = useState();
   const open = Boolean(anchorEl);
@@ -37,17 +37,17 @@ function App() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const baseURL = "http://localhost:3000/dummyData.json";
+  const baseUrl = "http://localhost:9001/trainingForms";
   const [userData, setUserData] = useState([]);
-  const [type, setType] = useState("");
+  const [type, setType] = useState();
   const [sets, setSets] = useState();
   const [reps, setReps] = useState();
   const [weight, setWeight] = useState();
-  const [trainingNotes, setTrainingNotes] = useState("");
+  const [trainingNotes, setTrainingNotes] = useState();
   const [entries, setEntries] = useState(testData);
 
   useEffect(() => {
-    axios.get(baseURL).then((res) => setUserData(res.data));
+    axios.get(baseUrl).then((res) => setUserData(res.data));
   }, []);
 
   return (
@@ -77,11 +77,15 @@ function App() {
                 "aria-labelledby": "basic-button",
               }}
             >
-              <MenuItem>
-                <Link to="/">Profile</Link>
+              <MenuItem onClick={handleClose}>
+                <Link to="/" className="menuLink">
+                  Profile
+                </Link>
               </MenuItem>
-              <MenuItem>
-                <Link to="/trainingForm">TrainingForm</Link>
+              <MenuItem onClick={handleClose}>
+                <Link to="/trainingForm" className="menuLink">
+                  TrainingForm
+                </Link>
               </MenuItem>
               <MenuItem>Climb Form</MenuItem>
               <MenuItem>Logout</MenuItem>
@@ -106,7 +110,8 @@ function App() {
               weight={weight}
               setTrainingNotes={setTrainingNotes}
               trainingNotes={trainingNotes}
-            /> 
+              baseUrl={baseUrl}
+            />
           }
         />
       </Routes>
@@ -115,5 +120,3 @@ function App() {
 }
 
 export default App;
-
-

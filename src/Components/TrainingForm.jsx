@@ -1,16 +1,15 @@
 import { useState } from "react";
+import axios from 'axios'
 import TrainingCardContainer from "./TrainingCardContainer";
 import Box from "@mui/material/Box";
 import Switch from "@mui/material/Switch";
 import {
   MenuItem,
   Select,
-  FormControlLabel,
   FormControl,
   InputLabel,
   TextField,
   Button,
-  Typography,
 } from "@mui/material";
 
 const TrainingForm = ({
@@ -26,47 +25,42 @@ const TrainingForm = ({
   setWeight,
   trainingNotes,
   setTrainingNotes,
+  baseUrl
 }) => {
   const [checked, setChecked] = useState(false);
 
   const entryConstructor = (type, sets, reps, weight, trainingNotes) => {
-    const entryInit = {
+    let newEntry = {}
+    newEntry = {
       type,
       sets,
       reps,
       weight,
-      trainingNotes,
-    };
-    console.log(entryInit);
-    entries.push(entryInit);
+      notes: trainingNotes,
+    }
+    axios.post(baseUrl, newEntry)
+      .then(res => setEntries(res.data))
+    
+    entries.push(newEntry );
     setEntries(entries);
-    setType("");
-    setSets(0);
-    setReps(0);
-    setWeight(0);
-    setTrainingNotes("");
+    setType();
+    setSets();
+    setReps();
+    setWeight();
+    setTrainingNotes();
   };
 
   return (
-    <Box >
-      {/* <Typography varient=>HangBoard form</Typography> */}
-      {/* Below is the hangboard switch */}
-      {/* <FormControlLabel
-        control={<Switch />}
-        onChange={() => setChecked(!checked)}
-        label="HangBoarding"
-      /> */}
-
+    <Box>
       <Box className="trainingFormContainer">
-        <FormControl style={{ minWidth: 300 }} variant="standard">
+        <FormControl style={{ minWidth: 200 }} variant="standard">
           <InputLabel id="typeSelector">Type</InputLabel>
           <Select
             labelId="typeSelector"
             id="typeSelector"
-            value={type}
+            value={type || ""}
             label="type"
             onChange={(e) => setType(e.target.value)}
-            
           >
             <MenuItem value={"Half Crimp"}>Half Crimp</MenuItem>
             <MenuItem value={"Full Crimp"}>Full Crimp</MenuItem>
@@ -78,15 +72,14 @@ const TrainingForm = ({
           </Select>
         </FormControl>
 
-        <FormControl style={{ minWidth: 125 }} variant="standard">
+        <FormControl style={{ minWidth: 100 }} variant="standard">
           <InputLabel id="setSelector">Sets</InputLabel>
           <Select
             labelId="setSelector"
             id="setSelector"
-            value={sets}
+            value={sets || 0}
             label="sets"
             onChange={(e) => setSets(e.target.value)}
-            
           >
             <MenuItem value={0}>0</MenuItem>
             <MenuItem value={1}>1</MenuItem>
@@ -97,15 +90,14 @@ const TrainingForm = ({
           </Select>
         </FormControl>
 
-        <FormControl style={{ minWidth: 125 }} variant="standard">
+        <FormControl style={{ minWidth: 100 }} variant="standard">
           <InputLabel id="repSelector">Reps</InputLabel>
           <Select
             labelId="repSelector"
             id="repSelector"
-            value={reps}
+            value={reps || 0}
             label="reps"
             onChange={(e) => setReps(e.target.value)}
-            
           >
             <MenuItem value={0}>0</MenuItem>
             <MenuItem value={1}>1</MenuItem>
@@ -120,18 +112,17 @@ const TrainingForm = ({
             <MenuItem value={5}>10</MenuItem>
           </Select>
         </FormControl>
-        <FormControl style={{ minWidth: 125 }} variant="standard">
+        <FormControl style={{ minWidth: 100 }} variant="standard">
           <InputLabel id="weightSelector">Weight</InputLabel>
           <Select
             labelId="weightSelector"
             id="weightSelector"
-            value={weight}
+            value={weight || 0}
             label="weights"
             onChange={(e) => setWeight(e.target.value)}
-            
           >
             <MenuItem value={0}>0</MenuItem>
-            <MenuItem value={1}>ISO</MenuItem>
+            <MenuItem value={-1}>ISO</MenuItem>
             <MenuItem value={10}>10 lb</MenuItem>
             <MenuItem value={20}>20 lb</MenuItem>
             <MenuItem value={30}>30 lb</MenuItem>
@@ -149,7 +140,7 @@ const TrainingForm = ({
             id="notesSection"
             label="Notes"
             variant="standard"
-            value={trainingNotes}
+            value={trainingNotes || ""}
             onChange={(e) => setTrainingNotes(e.target.value)}
           />
         </FormControl>
@@ -157,18 +148,19 @@ const TrainingForm = ({
           <Button
             onClick={() =>
               entryConstructor(type, sets, reps, weight, trainingNotes)
+
             }
           >
             Submit
           </Button>
         </Box>
       </Box>
-
-      {entries >= 1 && (
+      <Box className="trainingCardWrapper">
         <TrainingCardContainer entries={entries} setEntries={setEntries} />
-      )}
+      </Box>
     </Box>
-  );
-};
+  )
+}
+
 
 export default TrainingForm;

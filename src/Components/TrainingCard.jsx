@@ -6,7 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-const TrainingCard = ({ entry, entries, setEntries }) => {
+const TrainingCard = ({ entry, entries, setEntries, index }) => {
   const deleteCard = (currentEntry) => {
     const updatedEntries = entries.filter(
       (entry) => entry.type !== currentEntry.type
