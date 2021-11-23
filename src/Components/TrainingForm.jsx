@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from 'axios'
+import axios from "axios";
 import TrainingCardContainer from "./TrainingCardContainer";
 import Box from "@mui/material/Box";
 import Switch from "@mui/material/Switch";
@@ -25,23 +25,31 @@ const TrainingForm = ({
   setWeight,
   trainingNotes,
   setTrainingNotes,
-  baseUrl
+  setTimeOn,
+  timeOn,
+  setTimeOff,
+  timeOff,
+  baseUrl,
 }) => {
   const [checked, setChecked] = useState(false);
 
   const entryConstructor = (type, sets, reps, weight, trainingNotes) => {
-    let newEntry = {}
+    let newEntry = {};
     newEntry = {
       type,
       sets,
       reps,
       weight,
       notes: trainingNotes,
-    }
-    axios.post(baseUrl, newEntry)
-      .then(res => setEntries(res.data))
-    
-    entries.push(newEntry );
+      timeOn,
+      timeOff,
+      completed: false,
+      created_at: Date.now()
+    };
+
+    axios.post(baseUrl, newEntry).then((res) => setEntries(res.data));
+
+    entries.push(newEntry);
     setEntries(entries);
     setType();
     setSets();
@@ -53,9 +61,14 @@ const TrainingForm = ({
   return (
     <Box>
       <Box className="trainingFormContainer">
-        <FormControl style={{ minWidth: 200 }} variant="standard">
+        <FormControl
+          style={{ minWidth: 200 }}
+          className="selector"
+          variant="standard"
+        >
           <InputLabel id="typeSelector">Type</InputLabel>
           <Select
+            // style={{margin: '1rem'}}
             labelId="typeSelector"
             id="typeSelector"
             value={type || ""}
@@ -72,7 +85,55 @@ const TrainingForm = ({
           </Select>
         </FormControl>
 
-        <FormControl style={{ minWidth: 100 }} variant="standard">
+        <FormControl
+          variant="standard"
+          className="selector"
+          style={{ minWidth: 125 }}
+        >
+          <InputLabel id="timeOnSelector">Time On</InputLabel>
+          <Select
+            labelId="timeOnSelector"
+            id="timeOnSelector"
+            value={timeOn || 0}
+            label="timeOn"
+            onChange={(e) => setTimeOn(e.target.value)}
+          >
+            <MenuItem value={0}>0 secs</MenuItem>
+            <MenuItem value={5}>5 secs</MenuItem>
+            <MenuItem value={7}>7 secs</MenuItem>
+            <MenuItem value={10}>10 secs</MenuItem>
+            <MenuItem value={30}>30 secs</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl
+          variant="standard"
+          className="selector"
+          style={{ minWidth: 125 }}
+        >
+          <InputLabel id="timeOffSelector">Time Off</InputLabel>
+          <Select
+            labelId="timeOffSelector"
+            id="timeOffSelector"
+            value={timeOff || 0}
+            label="timeOff"
+            onChange={(e) => setTimeOff(e.target.value)}
+          >
+            <MenuItem value={0}>0 secs</MenuItem>
+            <MenuItem value={5}>5 secs</MenuItem>
+            <MenuItem value={7}>7 secs</MenuItem>
+            <MenuItem value={10}>10 secs</MenuItem>
+            <MenuItem value={30}>30 secs</MenuItem>
+            <MenuItem value={60}>60 secs</MenuItem>
+            <MenuItem value={90}>90 secs</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl
+          style={{ minWidth: 100 }}
+          className="selector"
+          variant="standard"
+        >
           <InputLabel id="setSelector">Sets</InputLabel>
           <Select
             labelId="setSelector"
@@ -90,7 +151,11 @@ const TrainingForm = ({
           </Select>
         </FormControl>
 
-        <FormControl style={{ minWidth: 100 }} variant="standard">
+        <FormControl
+          style={{ minWidth: 100 }}
+          className="selector"
+          variant="standard"
+        >
           <InputLabel id="repSelector">Reps</InputLabel>
           <Select
             labelId="repSelector"
@@ -112,7 +177,11 @@ const TrainingForm = ({
             <MenuItem value={5}>10</MenuItem>
           </Select>
         </FormControl>
-        <FormControl style={{ minWidth: 100 }} variant="standard">
+        <FormControl
+          style={{ minWidth: 100 }}
+          className="selector"
+          variant="standard"
+        >
           <InputLabel id="weightSelector">Weight</InputLabel>
           <Select
             labelId="weightSelector"
@@ -135,7 +204,7 @@ const TrainingForm = ({
             <MenuItem value={100}>100 lb</MenuItem>
           </Select>
         </FormControl>
-        <FormControl style={{ minWidth: 300 }}>
+        {/* <FormControl style={{ minWidth: 300 }}>
           <TextField
             id="notesSection"
             label="Notes"
@@ -143,12 +212,11 @@ const TrainingForm = ({
             value={trainingNotes || ""}
             onChange={(e) => setTrainingNotes(e.target.value)}
           />
-        </FormControl>
+        </FormControl> */}
         <Box className="submitButtonContainer">
           <Button
             onClick={() =>
               entryConstructor(type, sets, reps, weight, trainingNotes)
-
             }
           >
             Submit
@@ -159,8 +227,7 @@ const TrainingForm = ({
         <TrainingCardContainer entries={entries} setEntries={setEntries} />
       </Box>
     </Box>
-  )
-}
-
+  );
+};
 
 export default TrainingForm;
