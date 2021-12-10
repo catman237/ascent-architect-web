@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 
 const NewUserForm = ({ user, setUser }) => {
+
   const rangeArray = (start, end) => {
     let rangeArr = [];
     if (end === undefined) {
@@ -29,6 +30,10 @@ const NewUserForm = ({ user, setUser }) => {
     return `${feetFromInches}'-${inchesRemainder}''`;
   };
 
+  const userPost = (user) => {
+    console.log(user);
+  };
+
   return (
     <Box className="userFormTextInputContainer">
       <Typography className="textInputHeader">Create an account</Typography>
@@ -39,7 +44,7 @@ const NewUserForm = ({ user, setUser }) => {
       >
         <TextField
           id="usernameInput"
-          label="Username"
+          label="User Name"
           variant="standard"
           onChange={(e) => setUser({ ...user, username: e.target.value })}
           value={user.username}
@@ -72,14 +77,14 @@ const NewUserForm = ({ user, setUser }) => {
           onChange={(e) => setUser({ ...user, home: e.target.value })}
           value={user.home}
         />
-        <FormControl className='selector'>
+        <FormControl className="selector">
           <InputLabel id="heightSelector">Height</InputLabel>
           <Select
             labelId="heightSelector"
             id="height"
-            value={user.height}
             label="height"
             onChange={(e) => setUser({ ...user, height: e.target.value })}
+            value={user.height}
           >
             {rangeArray(24, 85).map((number) => {
               return (
@@ -89,14 +94,14 @@ const NewUserForm = ({ user, setUser }) => {
           </Select>
         </FormControl>
 
-        <FormControl className='selector'>
+        <FormControl className="selector">
           <InputLabel id="apeIndexSelector">Ape Index</InputLabel>
           <Select
             labelId="apeIndexSelector"
             id="apeIndex"
-            value={user.apeIndex}
             label="apeIndex"
             onChange={(e) => setUser({ ...user, apeIndex: e.target.value })}
+            value={user.apeIndex}
           >
             {rangeArray(-12, 21).map((number) => {
               return <MenuItem value={number}>{number} inches</MenuItem>;
@@ -104,14 +109,14 @@ const NewUserForm = ({ user, setUser }) => {
           </Select>
         </FormControl>
 
-        <FormControl className='selector'>
+        <FormControl className="selector">
           <InputLabel id="weightSelector">Weight</InputLabel>
           <Select
             labelId="weighSelector"
             id="weight"
-            value={user.weight}
             label="weight "
             onChange={(e) => setUser({ ...user, weight: e.target.value })}
+            value={user.weight}
           >
             {rangeArray(50, 300).map((number) => {
               return <MenuItem value={number}>{number} lbs</MenuItem>;
@@ -119,21 +124,21 @@ const NewUserForm = ({ user, setUser }) => {
           </Select>
         </FormControl>
 
-        <FormControl className='selector'>
+        <FormControl className="selector">
           <InputLabel id="ageSelector">Age</InputLabel>
           <Select
             labelId="ageSelector"
             id="ageSelector"
             label="ageSelector"
-            value={user.age}
             onChange={(e) => setUser({ ...user, age: e.target.value })}
+            value={user.age}
           >
             {rangeArray(18, 101).map((number) => {
               return <MenuItem value={number}>{number}</MenuItem>;
             })}
           </Select>
         </FormControl>
-        <Button onClick={() => console.log(user)}>Sign Up</Button>
+        <Button onClick={() => userPost(user)}>Sign Up</Button>
       </FormControl>
     </Box>
   );

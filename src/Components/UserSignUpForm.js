@@ -8,12 +8,15 @@ const UserSignUpForm = ({ user, setUser }) => {
 
   return (
     <Box className="userFormContainer">
-      <Switch></Switch>
-      {!existingUser ? (
-        <ExistingUserForm user={user} setUser={setUser} />
-      ) : (
-        <NewUserForm user={user} setUser={setUser} />
-      )}
+      <Box className="userForm">
+        <Switch onClick={() => setExistingUser(!existingUser)}>this</Switch>
+
+        {!existingUser ? (
+          <ExistingUserForm user={user} setUser={setUser} />
+        ) : (
+          <NewUserForm user={user} setUser={setUser} />
+        )}
+      </Box>
     </Box>
   );
 };

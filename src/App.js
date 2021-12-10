@@ -51,6 +51,7 @@ function App() {
   const [timeOn, setTimeOn] = useState();
   const [timeOff, setTimeOff] = useState();
   const [entries, setEntries] = useState(testData);
+
   const [user, setUser] = useState({
     username: "",
     password: "",

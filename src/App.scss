@@ -48,11 +48,17 @@
 
 .userFormContainer {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   width: 100vw;
   height: 90vh;
   background-color: aqua;
-  
+  .userForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem;
+  }
 
   .userFormTextInputContainer {
     margin-top: 1rem;
